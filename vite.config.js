@@ -17,7 +17,11 @@ export default defineConfig({
     },
     target: 'esnext',
     minify: 'esbuild',
-    sourcemap: false
+    sourcemap: false,
+    // Forzar a no usar módulos nativos
+    commonjsOptions: {
+      transformMixedEsModules: true
+    }
   },
   optimizeDeps: {
     include: [
@@ -34,9 +38,19 @@ export default defineConfig({
       'scroll-lock',
       'typewriter-effect'
     ],
-    exclude: ['@rollup/rollup-linux-x64-gnu', '@rollup/rollup-darwin-x64']
+    exclude: [
+      '@rollup/rollup-linux-x64-gnu', 
+      '@rollup/rollup-darwin-x64',
+      '@rollup/rollup-linux-arm64-gnu',
+      '@rollup/rollup-win32-x64-msvc'
+    ],
+    force: true
   },
   define: {
     global: 'globalThis',
+  },
+  esbuild: {
+    target: 'esnext',
+    platform: 'browser'
   }
 })
