@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount, useBalance, useChainId } from 'wagmi';
 import { celestiaMainnet, celestiaMochaTestnet, celestiaArabicaDevnet } from '../../chains';
 
@@ -122,7 +121,7 @@ const CelestiaConnector = ({ chainId, onBalanceUpdate }) => {
   return { connectKeplr, isConnecting, keplrAddress, keplrBalance };
 };
 
-// Componente principal que combina RainbowKit con Celestia
+// Componente principal que combina Reown AppKit con Celestia
 const HybridConnectButton = () => {
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
@@ -145,128 +144,27 @@ const HybridConnectButton = () => {
     });
   };
 
-  return (
-    <ConnectButton.Custom>
-      {({
-        account,
-        chain,
-        openAccountModal,
-        openChainModal,
-        openConnectModal,
-        authenticationStatus,
-        mounted,
-      }) => {
-        // Verificar estado de montaje y autenticación
-        const ready = mounted && authenticationStatus !== 'loading';
-        const connected = ready && account && chain && (!authenticationStatus || authenticationStatus === 'authenticated');
+  if (!isConnected) {
+    return <appkit-button />;
+  }
 
-        return (
-          <div
-            {...(!ready && {
-              'aria-hidden': true,
-              style: {
-                opacity: 0,
-                pointerEvents: 'none',
-                userSelect: 'none',
-              },
-            })}
-          >
-            {(() => {
-              if (!connected) {
-                return (
-                  <button
-                    onClick={openConnectModal}
-                    type="button"
-                    className="relative inline-flex items-center justify-center h-11 transition-colors hover:text-color-1 px-4 text-n-1 bg-n-8 border border-n-6 rounded"
-                  >
-                    <span className="relative z-10">Connect Wallet</span>
-                  </button>
-                );
-              }
+  // Si es una red de Celestia, mostrar componente especial
+  if (isCelestiaChain) {
+    return (
+      <CelestiaWalletDisplay 
+        chainId={chainId}
+        onBalanceUpdate={handleCelestiaBalanceUpdate}
+        celestiaData={celestiaData}
+      />
+    );
+  }
 
-              if (chain.unsupported) {
-                return (
-                  <button
-                    onClick={openChainModal}
-                    type="button"
-                    className="relative inline-flex items-center justify-center h-11 transition-colors px-4 text-red-400 bg-n-8 border border-red-400/50 rounded"
-                  >
-                    <span className="relative z-10">Wrong network</span>
-                  </button>
-                );
-              }
-
-              // Si es una red de Celestia, mostrar componente especial
-              if (isCelestiaChain) {
-                return (
-                  <CelestiaWalletDisplay 
-                    chainId={chainId}
-                    onBalanceUpdate={handleCelestiaBalanceUpdate}
-                    celestiaData={celestiaData}
-                    openChainModal={openChainModal}
-                    openAccountModal={openAccountModal}
-                  />
-                );
-              }
-
-              // Para redes EVM normales, mostrar info estándar
-              return (
-                <div className="flex gap-2">
-                  <button
-                    onClick={openChainModal}
-                    type="button"
-                    className="relative inline-flex items-center justify-center h-11 transition-colors hover:text-color-1 px-3 text-n-1 bg-n-8 border border-n-6 rounded"
-                  >
-                    <span className="relative z-10 flex items-center gap-2">
-                      {chain.hasIcon && (
-                        <div
-                          style={{
-                            background: chain.iconBackground,
-                            width: 16,
-                            height: 16,
-                            borderRadius: 999,
-                            overflow: 'hidden',
-                          }}
-                        >
-                          {chain.iconUrl && (
-                            <img
-                              alt={chain.name ?? 'Chain icon'}
-                              src={chain.iconUrl}
-                              style={{ width: 16, height: 16 }}
-                            />
-                          )}
-                        </div>
-                      )}
-                      {chain.name}
-                    </span>
-                  </button>
-
-                  <button
-                    onClick={openAccountModal}
-                    type="button"
-                    className="relative inline-flex items-center justify-center h-11 transition-colors hover:text-color-1 px-4 text-n-1 bg-n-8 border border-n-6 rounded"
-                  >
-                    <span className="relative z-10">
-                      {account.displayName}
-                      {evmBalance && (
-                        <span className="ml-2 text-n-3">
-                          {parseFloat(evmBalance.formatted).toFixed(4)} {evmBalance.symbol}
-                        </span>
-                      )}
-                    </span>
-                  </button>
-                </div>
-              );
-            })()}
-          </div>
-        );
-      }}
-    </ConnectButton.Custom>
-  );
+  // Para redes EVM normales, usar el botón de AppKit
+  return <appkit-button />;
 };
 
 // Componente para mostrar información de Celestia
-const CelestiaWalletDisplay = ({ chainId, onBalanceUpdate, celestiaData, openChainModal, openAccountModal }) => {
+const CelestiaWalletDisplay = ({ chainId, onBalanceUpdate, celestiaData }) => {
   const { connectKeplr, isConnecting, keplrAddress, keplrBalance } = CelestiaConnector({ 
     chainId, 
     onBalanceUpdate 
@@ -293,36 +191,15 @@ const CelestiaWalletDisplay = ({ chainId, onBalanceUpdate, celestiaData, openCha
   return (
     <div className="flex gap-2">
       <button
-        onClick={openChainModal}
         type="button"
         className="relative inline-flex items-center justify-center h-11 transition-colors hover:text-color-1 px-3 text-n-1 bg-n-8 border border-n-6 rounded"
       >
         <span className="relative z-10 flex items-center gap-2">
-          {chain.hasIcon && (
-            <div
-              style={{
-                background: chain.iconBackground,
-                width: 16,
-                height: 16,
-                borderRadius: 999,
-                overflow: 'hidden',
-              }}
-            >
-              {chain.iconUrl && (
-                <img
-                  alt={chain.name ?? 'Chain icon'}
-                  src={chain.iconUrl}
-                  style={{ width: 16, height: 16 }}
-                />
-              )}
-            </div>
-          )}
-          {chain.name}
+          Celestia Chain
         </span>
       </button>
 
       <button
-        onClick={openAccountModal}
         type="button"
         className="relative inline-flex items-center justify-center h-11 transition-colors hover:text-color-1 px-4 text-n-1 bg-n-8 border border-n-6 rounded"
       >
