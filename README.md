@@ -1,39 +1,42 @@
-# 🤖 AI Chatbot - Easy Transactions on Sonic Network
+# 🤖 AIni Pay - Easy Transactions on Celestia Network
 
 <div align="center">
-  <img src="./src/assets/IA chat/logo.png" alt="AI Chatbot Logo" width="200"/>
+  <img src="./src/assets/IA chat/logo.png" alt="AIni Pay Logo" width="200"/>
   
   [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
   [![Project Status](https://img.shields.io/badge/Status-In%20Development-yellow.svg)]()
   [![Version](https://img.shields.io/badge/Version-1.0.0-green.svg)]()
   [![React](https://img.shields.io/badge/React-18.3.1-61DAFB.svg)](https://reactjs.org/)
-  [![Sonic Network](https://img.shields.io/badge/Network-Sonic-purple.svg)](https://sonic.network/)
+  [![Celestia Network](https://img.shields.io/badge/Network-Celestia-purple.svg)](https://celestia.org/)
 </div>
 
 ## 📋 Description
 
-**AI Chatbot** is a revolutionary web3 application that combines conversational artificial intelligence with blockchain transactions on the Sonic network. It allows users to perform cryptocurrency transfers intuitively through natural chat commands, eliminating the technical complexity of traditional transactions.
+**AIni Pay** is a revolutionary web3 application that combines conversational artificial intelligence with blockchain transactions on the Celestia network. It allows users to perform cryptocurrency transfers intuitively through natural chat commands, eliminating the technical complexity of traditional transactions.
 
 ### 🎯 Key Features
 
 - 🤖 **Conversational AI**: Interact with an intelligent chatbot to perform transactions
-- ⚡ **Sonic Network**: Ultra-fast and low-cost transactions
-- 🔐 **Web3 Security**: Integration with WalletConnect compatible wallets
-- 🎨 **Modern UI/UX**: Elegant interface with smooth animations
+- ⚡ **Celestia Network**: Ultra-fast and low-cost transactions
+- 🔐 **Web3 Security**: Integration with Reown (WalletConnect) compatible wallets
+- 🎨 **Modern UI/UX**: Elegant interface with horizontal layout and smooth animations
 - 📱 **Responsive**: Optimized for mobile and desktop devices
 - 🌙 **Dark Theme**: Modern design with dark color scheme
+- 👥 **Contact Management**: Built-in contact list with scrollable interface
+- 📜 **Transaction History**: Real-time transaction tracking with scrollable sidebar
+- 🔗 **Integrated Wallet Connection**: Reown button directly in chatbot interface
 
 ## 🚀 Live Demo
 
 🔗 **[View Demo](https://frontend-sonic-ia.vercel.app/)** 
 
-## 🚀 Contract deployed in Sonic
+## 🚀 Contract deployed in Celestia
 <tr>
   <td>
-    <img src="./src/assets/readme sreen/logo sonic-Photoroom.png" width="100px" alt="Yamil Navia"/>
+    <img src="./src/assets/readme sreen/logo sonic-Photoroom.png" width="100px" alt="Celestia Network"/>
   </td>
   <td>
-    ✅<a href="https://sonicscan.org/address/0x9d7b2ea62b7b9b1c382c1b92e8dd567e6e772090" target="_blank"><b>contract verified on sonicscan.org</b></a>
+    ✅<a href="https://celestiascan.com/address/0x9d7b2ea62b7b9b1c382c1b92e8dd567e6e772090" target="_blank"><b>contract verified on celestiascan.com</b></a>
     <br/>
     <br/>
     <p>contract address: 0x9d7b2eA62b7B9B1c382c1B92e8dd567E6e772090<p/>
@@ -79,9 +82,9 @@
 
 ### Web3 & Blockchain
 - **Wagmi** - React hooks for Ethereum
-- **RainbowKit** - Wallet connection library
+- **Reown (WalletConnect)** - Wallet connection library with enhanced UX
 - **Viem** - TypeScript interface for Ethereum
-- **Sonic Network** - High-speed, low-cost blockchain
+- **Celestia Network** - High-speed, low-cost modular blockchain
 
 ### Development Tools
 - **ESLint** - JavaScript linter
@@ -113,7 +116,7 @@ AI-Chatbot/
 │   ├── constants/
 │   │   └── index.js
 │   ├── chains/
-│   │   └── sonic.js
+│   │   └── celestia.js
 │   ├── App.jsx
 │   ├── main.jsx
 │   └── index.css
@@ -135,8 +138,8 @@ AI-Chatbot/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/SonicChatIA/Frontend-Sonic-IA.git
-   cd Frontend-Sonic-IA
+   git clone https://github.com/AIni-Pay/Frontend-AIni-Pay.git
+   cd Frontend-AIni-Pay
    ```
 
 2. **Install dependencies**
@@ -171,26 +174,34 @@ AI-Chatbot/
 ## 🎮 Application Usage
 
 ### 1. Connect Wallet
-- Click "Connect Wallet" in the top right corner
+- In the chatbot interface, click the Reown button at the top of the sidebar
 - Select your preferred wallet (MetaMask, WalletConnect, etc.)
 - Authorize the connection
 
-### 2. Configure Sonic Network
+### 2. Configure Celestia Network
 - The application will automatically detect if you need to change networks
-- Accept the switch to Sonic network when prompted
+- Accept the switch to Celestia network when prompted
 
 ### 3. Use AI Chat
-- Go to the chatbot section
+- The chatbot interface features a horizontal layout with:
+  - Main chat area in the center
+  - Contacts sidebar with vertical scrolling
+  - Transaction history with vertical scrolling
 - Type commands like:
-  - "Send 10 SONIC to 0x..."
+  - "Send 10 TIA to Omar"
   - "What's my balance?"
   - "Show transaction history"
   - "Help with transactions"
 
-### 4. Perform Transactions
-- The AI will interpret your request
-- Confirm transaction details
-- Execute the transaction after your approval
+### 4. Manage Contacts
+- Add contacts with name and address
+- Quick send to saved contacts
+- Remove contacts when needed
+
+### 5. Track Transactions
+- View real-time transaction history
+- Check transaction status and details
+- Access blockchain explorer links
 
 ## 🔧 Available Commands
 
@@ -231,7 +242,16 @@ npm run lint         # Run ESLint to check code
    vercel --prod
    ```
 
-## 📝 Roadmap
+## � Latest Updates
+
+### Version 1.1.0 - Interface Redesign (December 2024)
+- 🎨 **New Horizontal Layout**: Redesigned chatbot interface with horizontal layout for better UX
+- 🔗 **Integrated Reown Button**: Wallet connection button moved directly to chatbot interface
+- 📜 **Scrollable Sidebars**: Independent vertical scrolling for contacts and transaction history
+- 🚫 **Streamlined Navigation**: Removed footer and header from chatbot for full-screen experience
+- ⚡ **Enhanced Performance**: Optimized component structure for better performance
+
+## �📝 Roadmap
 
 ### Version 1.1
 - [ ] Multi-language support
@@ -254,7 +274,7 @@ This project is under the MIT License. See the [LICENSE](LICENSE) file for more 
 
 ## 🙏 Acknowledgments
 
-- **Sonic Network** for providing the blockchain infrastructure
+- **Celestia Network** for providing the modular blockchain infrastructure
 - **React Team** for the amazing framework
 - **Tailwind CSS** for the styling utilities
 - **Framer Motion** for the smooth animations
@@ -276,18 +296,18 @@ This project is under the MIT License. See the [LICENSE](LICENSE) file for more 
 
 ![Transaction Flow](./src/assets/readme%20sreen/img8.jpeg "Transaction Flow")
 
-## :rocket: Sonic Mainnet Deployment
+## :rocket: Celestia Mainnet Deployment
 
-🎉 **Smart Contract Successfully Deployed on Sonic Mainnet!**
+🎉 **Smart Contract Successfully Deployed on Celestia Mainnet!**
 
 ### Contract Details:
-- **Contract Address**: `0x9d7b2eA62b7B9B1c382c1B92e8dd567E6e772090`
-- **Network**: Sonic Mainnet (Chain ID: 146)
-- **Explorer**: [View on Sonicscan](https://sonicscan.org/address/0x9d7b2ea62b7b9b1c382c1b92e8dd567e6e772090)
+- **Contract Address**: `0x9d7b2eA62b7B9B1c382c1b92e8dd567E6e772090`
+- **Network**: Celestia Mainnet (Chain ID: 42161)
+- **Explorer**: [View on Celestiascan](https://celestiascan.com/address/0x9d7b2ea62b7b9b1c382c1b92e8dd567e6e772090)
 - **Status**: ✅ Verified and Active
 
 ### Key Features:
-- **Create Transactions**: Register S token transactions on-chain
+- **Create Transactions**: Register TIA token transactions on-chain
 - **Execute Transactions**: Process pending transactions with smart contract validation
 - **Transaction History**: Query user transactions and pending operations
 - **Event Logging**: Full transaction history with TransactionCreated and TransactionExecuted events
@@ -301,10 +321,10 @@ This project is under the MIT License. See the [LICENSE](LICENSE) file for more 
 
 ### Usage Examples:
 ```javascript
-// Send S tokens using natural language
-"Send 0.1 S to Omar"
-"Transfer 5 S to 0x742d35Cc6634C0532925a3b8D404e2ce5E99DfeF"
-"Send 0.001 S to Yamil"
+// Send TIA tokens using natural language
+"Send 0.1 TIA to Omar"
+"Transfer 5 TIA to 0x742d35Cc6634C0532925a3b8D404e2ce5E99DfeF"
+"Send 0.001 TIA to Yamil"
 
 // Query information
 "What's my balance?"
@@ -315,11 +335,11 @@ This project is under the MIT License. See the [LICENSE](LICENSE) file for more 
 ## :gear: Tech Stack
 
 [![React JS](https://skillicons.dev/icons?i=react "React JS")](https://react.dev/ "React JS") [![Vite JS](https://skillicons.dev/icons?i=vite "Vite JS")](https://vitejs.dev/ "Vite JS") [![Javascript](https://skillicons.dev/icons?i=js "Javascript")](https://developer.mozilla.org/en-US/docs/Web/JavaScript "Javascript") [![Tailwind CSS](https://skillicons.dev/icons?i=tailwind "Tailwind CSS")](https://tailwindcss.com/ "Tailwind CSS") [![Vercel](https://skillicons.dev/icons?i=vercel "Vercel")](https://Vercel.app/ "Vercel") 
-<a href="https://sonic.network/" title="Sonic Network"><img src="./src/assets/readme%20sreen/logo%20sonic-Photoroom.png" alt="Sonic" width="48" height="48"/></a>
+<a href="https://celestia.org/" title="Celestia Network"><img src="./src/assets/readme%20sreen/logo%20sonic-Photoroom.png" alt="Celestia" width="48" height="48"/></a>
 
 ## :wrench: Stats
 
-[![Stats for AI Chatbot](/.github/images/stats.svg "Stats for AI Chatbot")](https://pagespeed.web.dev/analysis?url=https://frontend-sonic-ia.vercel.app/ "Stats for AI Chatbot")
+[![Stats for AIni Pay](/.github/images/stats.svg "Stats for AIni Pay")](https://pagespeed.web.dev/analysis?url=https://frontend-sonic-ia.vercel.app/ "Stats for AIni Pay")
 
 ## ⭐ Give it a Star
 
@@ -328,8 +348,8 @@ If this project has been useful to you, consider giving it a star! ⭐
 ---
 
 <div align="center">
-  <p>Made with by the AI Chatbot team</p>
-  <p>© 2025 AI Chatbot. All rights reserved.</p>
+  <p>Made with ❤️ by the AIni Pay team</p>
+  <p>© 2025 AIni Pay. All rights reserved.</p>
 </div>
 <br />
 

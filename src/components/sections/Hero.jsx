@@ -1,6 +1,9 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { ScrollParallax } from "react-just-parallax";
 import Typewriter from "typewriter-effect";
+import { useNavigate } from "react-router-dom";
+import { useAccount, useConnect } from "wagmi";
+import { useAppKit, useAppKitProvider, useAppKitAccount } from '@reown/appkit/react';
 
 import { curve, heroBackground, robot } from "../../assets";
 import { heroIcons } from "../../constants";
@@ -13,6 +16,61 @@ import SplineScene from "../3D/SplineScene";
 
 const Hero = () => {
   const parallaxRef = useRef(null);
+  const navigate = useNavigate();
+  const { open } = useAppKit();
+  const { connect, connectors } = useConnect();
+  const { address: evmAddress, isConnected: isEvmConnected } = useAccount();
+  const { walletProvider } = useAppKitProvider('eip155');
+  
+  // Estado para Keplr
+  const [keplrConnected, setKeplrConnected] = useState(false);
+  const [keplrAddress, setKeplrAddress] = useState('');
+  const [isConnecting, setIsConnecting] = useState(false);
+  
+  // Detectar cuando se conecta exitosamente con EVM
+  useEffect(() => {
+    if (isEvmConnected && isConnecting) {
+      setIsConnecting(false);
+      setTimeout(() => {
+        navigate('/iaChat');
+      }, 500);
+    }
+  }, [isEvmConnected, isConnecting, navigate]);
+  
+  const connectEVM = async () => {
+    try {
+      setIsConnecting(true);
+      // Abrir el modal de Reown AppKit directamente
+      await open();
+    } catch (error) {
+      console.error('Error abriendo modal de Reown:', error);
+      setIsConnecting(false);
+    }
+  };
+  
+  const connectCelestia = async () => {
+    try {
+      if (!window.keplr) {
+        alert('Please install Keplr extension');
+        return;
+      }
+      
+      const chainId = 'celestia';
+      await window.keplr.enable(chainId);
+      const offlineSigner = window.keplr.getOfflineSigner(chainId);
+      const accounts = await offlineSigner.getAccounts();
+      
+      setKeplrConnected(true);
+      setKeplrAddress(accounts[0].address);
+      
+      // Redirigir a la aplicación externa de Celestia
+      setTimeout(() => {
+        window.location.href = 'https://celestia-aini-pay.vercel.app/';
+      }, 1000);
+    } catch (error) {
+      console.error('Error connecting Keplr wallet:', error);
+    }
+  };
 
   return (
     <Section
@@ -63,10 +121,23 @@ const Hero = () => {
             </span>
           </p>
 
-          <div className=" flex justify-center items-center">
+          <div className="flex justify-center items-center gap-4 mb-8">
             <div className="bottom-16">
-              <Button href="/iaChat" aiButton>
-                Start your Chat with AI!
+              <Button 
+                onClick={connectEVM}
+                aiButton
+                className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 transform hover:scale-105 transition-all duration-300"
+              >
+                🔗 Conectar con EVM
+              </Button>
+            </div>
+            <div className="bottom-16">
+              <Button 
+                onClick={connectCelestia}
+                aiButton
+                className="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 transform hover:scale-105 transition-all duration-300"
+              >
+                🌟 Conectar Keplr CELESTIA
               </Button>
             </div>
           </div>

@@ -28,11 +28,8 @@ const App = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/iaChat" element={
-          <div className="pt-[4.75rem] lg:pt-[5.25rem] overflow-hidden">
-            <StarsCanvas />
-            <Header />
+          <div className="h-screen overflow-hidden bg-n-8">
             <ChatTest />
-            <Footer />
           </div>
         } />
       </Routes>

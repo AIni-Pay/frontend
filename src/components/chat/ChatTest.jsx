@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useAccount, useConnect, useDisconnect, useWriteContract, useReadContract, useWaitForTransactionReceipt, useSendTransaction, useChainId } from "wagmi";
 import { parseEther, formatEther } from "viem";
+import { useAppKit } from '@reown/appkit/react';
 import { Section } from "../ui";
 import { CONTRACT_CONFIG, getTransactionUrl, getAddressUrl, isValidEthereumAddress, formatAddress } from "../../config/contract";
 import { getExplorerName } from "../../utils/explorers";
@@ -10,13 +11,19 @@ const ChatTest = () => {
   const chainId = useChainId(); // Obtener el chainId actual
   const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect();
+  const { open } = useAppKit();
   const { sendTransaction, data: hash, isPending, reset: resetTransaction } = useSendTransaction();
   const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash });
+
+  // Estados para manejar conexiones
+  const [walletType, setWalletType] = useState(null); // 'evm' o 'celestia'
+  const [keplrAddress, setKeplrAddress] = useState('');
+  const [keplrConnected, setKeplrConnected] = useState(false);
 
   const [messages, setMessages] = useState([
     { 
       role: "assistant", 
-      content: "Hello! I'm Sonic, your AI assistant for ETH transactions. Connect your wallet to get started." 
+      content: "Hello! I'm your AI assistant. I can help with EVM transactions or Celestia operations depending on your connected wallet." 
     }
   ]);
   const [inputValue, setInputValue] = useState("");
@@ -47,6 +54,57 @@ const ChatTest = () => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Detectar conexiones automáticamente
+  useEffect(() => {
+    const detectConnections = async () => {
+      // Detectar EVM
+      if (isConnected && address) {
+        setWalletType('evm');
+        setMessages(prev => [
+          ...prev,
+          {
+            role: "assistant",
+            content: `🔗 EVM wallet connected! Address: ${formatAddress(address)}\n\nI can help you with ETH transactions, smart contracts, and more. What would you like to do?`
+          }
+        ]);
+        return;
+      }
+
+      // Detectar Keplr
+      if (window.keplr) {
+        try {
+          const chainId = 'celestia';
+          const key = await window.keplr.getKey(chainId);
+          if (key) {
+            setKeplrConnected(true);
+            setKeplrAddress(key.bech32Address);
+            setWalletType('celestia');
+            setMessages(prev => [
+              ...prev,
+              {
+                role: "assistant",
+                content: `🌟 Celestia wallet connected! Address: ${key.bech32Address.slice(0, 12)}...\n\nI can help you with TIA transactions, data availability, and Celestia network operations. What would you like to do?`
+              }
+            ]);
+          }
+        } catch (error) {
+          // Usuario no ha conectado Keplr todavía
+        }
+      }
+    };
+
+    detectConnections();
+  }, [isConnected, address]);
+
+  // Función para obtener el mensaje de bienvenida
+  const getWelcomeMessage = () => {
+    if (walletType === 'evm') {
+      return `Hello! � I'm AIni Pay Transaction Bot, your assistant for ETH transactions.\n\n${isConnected ? `✅ EVM Wallet connected: ${formatAddress(address)}\n🌐 Network: AIni Pay Mainnet` : '❌ Please connect your EVM wallet first'}\n\n💡 Try commands like: \`Send 0.001 ETH to Omar\``;
+    } else if (walletType === 'celestia') {
+      return `Hello! 👋 I'm Celestia Assistant, your helper for Celestia operations.\n\n${keplrConnected ? `✅ Keplr Wallet connected\n📍 Address: ${keplrAddress}\n🌐 Network: Celestia` : '❌ Please connect your Keplr wallet first'}\n\n💡 Try commands related to Celestia network operations`;
+    }
+  };
 
   useEffect(() => {
     if (isConfirmed && pendingTransaction && hash) {
@@ -93,8 +151,8 @@ Transaction completed! 🎉`
   const parseTransactionCommand = (message) => {
     // More flexible patterns to detect send commands
     const patterns = [
-      /(?:send|enviar|transfer)\s+([\d.]+)\s+(?:s|sonic|eth)\s+(?:to|a)\s+(0x[a-fA-F0-9]{40})/i,
-      /(?:send|enviar|transfer)\s+([\d.]+)\s+(?:s|sonic|eth)\s+(?:to|a)\s+(\w+)/i,
+      /(?:send|enviar|transfer)\s+([\d.]+)\s+(?:s|AIni Pay|eth)\s+(?:to|a)\s+(0x[a-fA-F0-9]{40})/i,
+      /(?:send|enviar|transfer)\s+([\d.]+)\s+(?:s|AIni Pay|eth)\s+(?:to|a)\s+(\w+)/i,
       /(?:send|enviar)\s+([\d.]+)\s+(?:to|a)\s+(0x[a-fA-F0-9]{40})/i,
       /(?:send|enviar)\s+([\d.]+)\s+(?:to|a)\s+(\w+)/i
     ];
@@ -130,19 +188,19 @@ Transaction completed! 🎉`
     }
     
     if (lowerMessage.includes('smart contract') || lowerMessage.includes('contract')) {
-      return "📜 **Smart Contracts** are programs that execute automatically on the blockchain when certain conditions are met. Our bot uses the TransactionManager contract on Sonic Mainnet to manage transactions securely.\n\n🔍 Contract address: `" + CONTRACT_CONFIG.address + "`";
+      return "📜 **Smart Contracts** are programs that execute automatically on the blockchain when certain conditions are met. Our bot uses the TransactionManager contract on AIni Pay Mainnet to manage transactions securely.\n\n🔍 Contract address: `" + CONTRACT_CONFIG.address + "`";
     }
     
     if (lowerMessage.includes('balance') || lowerMessage.includes('saldo')) {
-      return `💰 To view your current balance, check your wallet ${isConnected ? `(${formatAddress(address)})` : '(not connected)'} on Sonic Mainnet.\n\n🔗 You can use: https://sonicscan.org/address/${address || 'your-address'}\n\n💡 This is Sonic Mainnet - use real S tokens!`;
+      return `💰 To view your current balance, check your wallet ${isConnected ? `(${formatAddress(address)})` : '(not connected)'} on AIni Pay Mainnet.\n\n🔗 You can use: https://AIni Payscan.org/address/${address || 'your-address'}\n\n💡 This is AIni Pay Mainnet - use real S tokens!`;
     }
     
     if (lowerMessage.includes('help') || lowerMessage.includes('ayuda') || lowerMessage.includes('command')) {
-      return `🤖 **Available commands:**\n\n📤 **To send S tokens:**\n• \`Send 0.001 S to 0x...\`\n• \`Send 0.5 S to Omar\`\n• \`Transfer 0.1 S to 0x...\`\n\n❓ **Queries:**\n• "What is Sonic?"\n• "What's my balance?"\n• "Explain smart contracts"\n\n💡 I use natural language - just tell me what you want to do!`;
+      return `🤖 **Available commands:**\n\n📤 **To send S tokens:**\n• \`Send 0.001 S to 0x...\`\n• \`Send 0.5 S to Omar\`\n• \`Transfer 0.1 S to 0x...\`\n\n❓ **Queries:**\n• "What is AIni Pay?"\n• "What's my balance?"\n• "Explain smart contracts"\n\n💡 I use natural language - just tell me what you want to do!`;
     }
     
     if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hola')) {
-      return `Hello! 👋 I'm Sonic Transaction Bot, your assistant for ETH transactions.\n\n${isConnected ? `✅ Wallet connected: ${formatAddress(address)}` : '❌ Please connect your wallet first'}\n\n💡 Try commands like: \`Send 0.001 ETH to Omar\``;
+      return `Hello! 👋 I'm AIni Pay Transaction Bot, your assistant for ETH transactions.\n\n${isConnected ? `✅ Wallet connected: ${formatAddress(address)}` : '❌ Please connect your wallet first'}\n\n💡 Try commands like: \`Send 0.001 ETH to Omar\``;
     }
     
     return null;
@@ -154,13 +212,14 @@ Transaction completed! 🎉`
       console.log("User message:", message);
       console.log("API Key present:", !!import.meta.env.VITE_DEEPSEEK_API_KEY);
 
-      // Specific context for the bot
-      const systemContext = `You are Sonic Transaction Bot, an AI assistant specialized in Ethereum transactions.
+      // Specific context for the bot based on wallet type
+      const systemContext = walletType === 'evm' 
+        ? `You are AIni Pay Transaction Bot, an AI assistant specialized in Ethereum transactions.
 
 CONTEXT:
-- You work with the TransactionManager contract on Sonic Mainnet
+- You work with the TransactionManager contract on AIni Pay Mainnet
 - Contract address: ${CONTRACT_CONFIG.address}
-- User is ${isConnected ? 'connected' : 'disconnected'} ${isConnected ? `with wallet: ${formatAddress(address)}` : ''}
+- User is ${isConnected ? 'connected' : 'disconnected'} ${isConnected ? `with EVM wallet: ${formatAddress(address)}` : ''}
 
 AVAILABLE COMMANDS:
 - "Send [amount] ETH to [address/name]"  
@@ -173,7 +232,26 @@ PERSONALITY:
 - Always emphasize security
 - Use appropriate emojis
 
-If you don't understand something, ask for clarification. If it's a transaction command, simply say you'll process it.`;
+If you don't understand something, ask for clarification. If it's a transaction command, simply say you'll process it.`
+        : `You are Celestia Assistant, an AI helper specialized in Celestia network operations.
+
+CONTEXT:
+- You work with Celestia network and Keplr wallet
+- User is ${keplrConnected ? 'connected' : 'disconnected'} ${keplrConnected ? `with Keplr wallet: ${keplrAddress}` : ''}
+
+AVAILABLE OPERATIONS:
+- Celestia network queries and operations
+- TIA token information
+- Staking and delegation operations
+- Network status and information
+
+PERSONALITY:
+- Friendly and knowledgeable about Cosmos ecosystem
+- Explain Celestia concepts clearly
+- Always emphasize security
+- Use appropriate emojis
+
+If you don't understand something, ask for clarification about Celestia operations.`;
 
       // Direct API URL
       const url = 'https://api.deepseek.com/v1/chat/completions';
@@ -278,7 +356,7 @@ If you don't understand something, ask for clarification. If it's a transaction 
         
         setMessages(prev => [...prev, { 
           role: "assistant", 
-          content: `💼 Preparing transaction:\n• Send: ${amount} S\n• Recipient: ${displayName}\n• Address: ${recipient}\n• Network: Sonic Mainnet\n\nDo you want to continue? Click "Confirm Transaction" to proceed.` 
+          content: `💼 Preparing transaction:\n• Send: ${amount} S\n• Recipient: ${displayName}\n• Address: ${recipient}\n• Network: AIni Pay Mainnet\n\nDo you want to continue? Click "Confirm Transaction" to proceed.` 
         }]);
 
         setPendingTransaction({
@@ -330,13 +408,13 @@ If you don't understand something, ask for clarification. If it's a transaction 
 
 🔍 **Possible causes:**
 • Insufficient S balance
-• Wrong network (must be Sonic Mainnet)
+• Wrong network (must be AIni Pay Mainnet)
 • Insufficient gas
 • Invalid address
 
 💡 **Solutions:**
-• Check your S balance on Sonicscan
-• Verify you're on Sonic Mainnet
+• Check your S balance on AIni Payscan
+• Verify you're on AIni Pay Mainnet
 • Try with a smaller amount` 
       }]);
       setPendingTransaction(null);
@@ -410,7 +488,7 @@ If you don't understand something, ask for clarification. If it's a transaction 
                       <div className="bg-n-7 text-n-1 border border-n-6 p-4 rounded-2xl">
                         <div className="flex items-center gap-2">
                           <div className="animate-spin w-4 h-4 border-2 border-purple-400 border-t-transparent rounded-full"></div>
-                          <span className="text-sm text-n-4">Sonic is thinking...</span>
+                          <span className="text-sm text-n-4">AIni Pay is thinking...</span>
                         </div>
                       </div>
                     </div>
@@ -453,24 +531,51 @@ If you don't understand something, ask for clarification. If it's a transaction 
                   <div className="mb-4 p-4 bg-n-7/50 rounded-xl">
                     <p className="text-n-4 text-xs mb-2">💡 Quick commands:</p>
                     <div className="flex flex-wrap gap-2">
-                      <button
-                        onClick={() => setInputValue("Send 0.001 ETH to Omar")}
-                        className="px-3 py-1 bg-n-7 text-n-2 rounded text-xs hover:bg-n-6 transition-colors"
-                      >
-                        💸 Send ETH
-                      </button>
-                      <button
-                        onClick={() => setInputValue("How to send S tokens?")}
-                        className="px-3 py-1 bg-n-7 text-n-2 rounded text-xs hover:bg-n-6 transition-colors"
-                      >
-                        ❓ Help
-                      </button>
-                      <button
-                        onClick={() => setInputValue("What's my balance?")}
-                        className="px-3 py-1 bg-n-7 text-n-2 rounded text-xs hover:bg-n-6 transition-colors"
-                      >
-                        💰 Balance
-                      </button>
+                      {walletType === 'evm' ? (
+                        <>
+                          <button
+                            onClick={() => setInputValue("Send 0.001 ETH to Omar")}
+                            className="px-3 py-1 bg-n-7 text-n-2 rounded text-xs hover:bg-n-6 transition-colors"
+                          >
+                            💸 Send ETH
+                          </button>
+                          <button
+                            onClick={() => setInputValue("How to send S tokens?")}
+                            className="px-3 py-1 bg-n-7 text-n-2 rounded text-xs hover:bg-n-6 transition-colors"
+                          >
+                            ❓ Help
+                          </button>
+                          <button
+                            onClick={() => setInputValue("What's my balance?")}
+                            className="px-3 py-1 bg-n-7 text-n-2 rounded text-xs hover:bg-n-6 transition-colors"
+                          >
+                            💰 Balance
+                          </button>
+                        </>
+                      ) : walletType === 'celestia' ? (
+                        <>
+                          <button
+                            onClick={() => setInputValue("Check my TIA balance")}
+                            className="px-3 py-1 bg-n-7 text-n-2 rounded text-xs hover:bg-n-6 transition-colors"
+                          >
+                            💰 TIA Balance
+                          </button>
+                          <button
+                            onClick={() => setInputValue("How to delegate TIA?")}
+                            className="px-3 py-1 bg-n-7 text-n-2 rounded text-xs hover:bg-n-6 transition-colors"
+                          >
+                            🏛️ Delegate
+                          </button>
+                          <button
+                            onClick={() => setInputValue("What's Celestia network status?")}
+                            className="px-3 py-1 bg-n-7 text-n-2 rounded text-xs hover:bg-n-6 transition-colors"
+                          >
+                            📊 Network Info
+                          </button>
+                        </>
+                      ) : (
+                        <p className="text-n-4 text-xs">Connect a wallet to see available commands</p>
+                      )}
                     </div>
                   </div>
                 )}
@@ -482,13 +587,19 @@ If you don't understand something, ask for clarification. If it's a transaction 
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    placeholder={isConnected ? "Write here... (e.g: Send 0.001 ETH to Omar)" : "Connect your wallet to get started..."}
+                    placeholder={
+                      walletType === 'evm' && isConnected 
+                        ? "Write here... (e.g: Send 0.001 ETH to Omar)" 
+                        : walletType === 'celestia' && keplrConnected
+                        ? "Write here... (e.g: Check TIA balance, delegate tokens)"
+                        : "Connect your wallet to get started..."
+                    }
                     className="flex-1 p-4 bg-n-7 border border-n-6 rounded-2xl text-n-1 placeholder-n-4 focus:outline-none focus:border-purple-400"
-                    disabled={!isConnected}
+                    disabled={!isConnected && !keplrConnected}
                   />
                   <button
                     onClick={handleSendMessage}
-                    disabled={!inputValue.trim() || !isConnected || isThinking}
+                    disabled={!inputValue.trim() || (!isConnected && !keplrConnected) || isThinking}
                     className="px-6 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-2xl hover:from-purple-600 hover:to-pink-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                   >
                     Send
@@ -499,6 +610,11 @@ If you don't understand something, ask for clarification. If it's a transaction 
 
             {/* Sidebar */}
             <div className="space-y-6">
+              {/* Reown Button */}
+              <div className="flex justify-center">
+                <appkit-button />
+              </div>
+              
               {/* Contacts */}
               <div className="bg-n-8 border border-n-6 rounded-3xl p-6">
                 <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
