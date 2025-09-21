@@ -328,7 +328,7 @@ If this project has been useful to you, consider giving it a star! ⭐
 ---
 
 <div align="center">
-  <p>Made with ❤️ by the AI Chatbot team</p>
+  <p>Made with by the AI Chatbot team</p>
   <p>© 2025 AI Chatbot. All rights reserved.</p>
 </div>
 <br />
