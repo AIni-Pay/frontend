@@ -6,7 +6,7 @@ import MenuSvg from "../../assets/svg/MenuSvg";
 import { Button } from "../ui";
 import { KeplrWallet } from "../wallet";
 import { HambugerMenu } from "../design/Header";
-import logo from "../../assets/IA chat/logo.png";
+import logo from "../../assets/IA chat/AIniPay_Logo.png";
 
 // Componente combinado para wallets de escritorio
 const DesktopWallets = () => {
@@ -68,19 +68,22 @@ const Header = () => {
 
   return (
     <div
-      className={`fixed top-0 left-0 w-full z-50 border-b border-n-6 lg:bg-n-8/90 lg:bg-blur-sm ${
+      className={`fixed p-2 top-0 left-0 w-full z-50 border-b border-n-6 lg:bg-n-8/90 lg:bg-blur-sm ${
         openNavigation ? "bg-n-8" : "bg-n-8/90 backdrop-blur-sm"
       }`}
     >
-      <div className="flex items-center px-5 lg:px-7.5 xl:px-10 max-lg:py-4">
-        <a className="block w-[12rem] xl:mr-8" href="#hero">
+      <div className="flex items-center px-5 lg:px-10.5 xl:px-10 max-lg:py-4">
+        <a className="flex items-center w-[12rem] xl:mr-8" href="#hero">
           <img
             src={logo}
-            width={190}
+            width={40}
             height={40}
-            alt="Brainwave"
-            className="pointer-events-none select-none"
+            alt="AIni Pay"
+            className="pointer-events-none select-none mr-3"
           />
+          <span className="text-xl font-bold text-white">
+            <span className="text-red-400">AI</span>ni Pay
+          </span>
         </a>
 
         <nav
