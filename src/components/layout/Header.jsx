@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 import MenuSvg from "../../assets/svg/MenuSvg";
 import { Button } from "../ui";
@@ -27,7 +26,7 @@ const DesktopWallets = () => {
           <div className="space-y-4">
             <div>
               <h3 className="text-n-3 text-sm mb-2">EVM Chains (MetaMask, WalletConnect)</h3>
-              <ConnectButton />
+              <appkit-button />
             </div>
             <div className="border-t border-n-6 pt-4">
               <h3 className="text-n-3 text-sm mb-2">Cosmos Chains (Keplr)</h3>
@@ -91,46 +90,21 @@ const Header = () => {
         >
           <div className="relative z-2 flex flex-col items-center justify-center m-auto lg:flex-row">
             {/* Mobile Connect Wallet Buttons */}
-            {/* Mobile Connect Wallet Buttons */}
             <div className="lg:hidden w-full max-w-xs px-6 py-4 space-y-4">
               <div>
                 <h3 className="text-n-3 text-sm mb-2 text-center">EVM Chains (MetaMask)</h3>
-                <ConnectButton />
+                <appkit-button />
               </div>
               <div>
                 <h3 className="text-n-3 text-sm mb-2 text-center">Cosmos Chains (Keplr)</h3>
                 <KeplrWallet />
               </div>
             </div>
-            
-            {/* <div className="relative z-2 flex flex-col items-center justify-center m-auto lg:flex-row">
-            {navigation.map((item) => (
-              <a
-                key={item.id}
-                href={item.url}
-                target={item.external ? "_blank" : "_self"}
-                rel={item.external && "noreferrer noopener"}
-                onClick={handleClick}
-                className={`block relative font-code text-2xl uppercase text-n-1 transition-colors hover:text-color-1 ${
-                  item.onlyMobile && "lg:hidden"
-                } px-6 py-6 md:py-8 lg:mr-0.25 lg:text-xs lg:font-semibold ${
-                  item.url === pathname.hash
-                    ? "z-2 lg:text-n-1"
-                    : "lg:text-n-1/50"
-                } lg:leading-5 lg:hover:text-n-1 xl:px-12`}
-              >
-                {item.title}
-              </a>
-            ))}
-          </div> */}
           </div>
 
           <HambugerMenu />
         </nav>
 
-        {/* <Button className="hidden lg:flex" href={links.sourceCode} external>
-          Source Code
-        </Button> */}
         <DesktopWallets />
 
         <Button
