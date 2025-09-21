@@ -38,12 +38,6 @@ export default defineConfig({
       'scroll-lock',
       'typewriter-effect'
     ],
-    exclude: [
-      '@rollup/rollup-linux-x64-gnu', 
-      '@rollup/rollup-darwin-x64',
-      '@rollup/rollup-linux-arm64-gnu',
-      '@rollup/rollup-win32-x64-msvc'
-    ],
     force: true
   },
   define: {
