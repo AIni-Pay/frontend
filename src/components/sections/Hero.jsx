@@ -117,7 +117,7 @@ const Hero = () => {
             </span>
             . Transform your ideas into real actions: send payments, generate content, and automate your tasks with just one chat.{" "}
             <span className="font-semibold text-green-400">
-              Paying with Sonic is as easy as sending a WhatsApp message.
+              Paying with Celestia is as easy as sending a WhatsApp message.
             </span>
           </p>
 
@@ -173,7 +173,7 @@ const Hero = () => {
                 <ScrollParallax isAbsolutelyPositioned>
                   <Notification
                     className="hidden absolute -right-[5.5rem] bottom-[11rem] w-[18rem] xl:flex"
-                    title="Quick transfers to friends in Sonic"
+                    title="Quick transfers to friends in Celestia"
                   />
                 </ScrollParallax>
               </div>

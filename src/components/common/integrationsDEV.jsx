@@ -210,7 +210,7 @@ const IntegrationsDEV = () => {
                 </span>
               </>
             }
-            text="The decentralized team behind your AI-powered Sonic transfers"
+            text="The decentralized team behind your AI-powered Celestia transfers"
           />
           
           

@@ -31,10 +31,10 @@ export const PhotoChatMessage = () => {
       <Typewriter
         options={{
           strings: [
-            "Transfer 10 sonic to wallet 0x251...67",
-            "Transfer 0.3 sonic to Andrew wallet",
-            "Send 0.5 sonic to Mom wallet",
-            "Pay for my 2 sonic coffee at 0x345...784",
+            "Transfer 10 celestia to wallet 0x251...67",
+            "Transfer 0.3 celestia to Andrew wallet",
+            "Send 0.5 celestia to Mom wallet",
+            "Pay for my 2 celestia coffee at 0x345...784",
           ],
           autoStart: true,
           loop: true,
@@ -50,7 +50,7 @@ export const VideoChatMessage = ({ isPlaying }) => {
     <div className="absolute top-8 left-[3.125rem] w-full max-w-[14rem] pt-2.5 pr-2.5 pb-7 pl-5 bg-n-6 rounded-t-xl rounded-br-xl font-code text-base md:max-w-[17.5rem]">
       <Typewriter
         options={{
-          strings: isPlaying ? ["Transaction completed. You have successfully sent 0.1 SONIC to wallet 0x05341... Transaction hash: 0xabc123..."] : ["🎉 Done! I just sent 0.1 SONIC to 0x05341....Your transaction was confirmed on the SONIC network in 3 seconds."],
+          strings: isPlaying ? ["Transaction completed. You have successfully sent 0.1 celestia to wallet 0x05341... Transaction hash: 0xabc123..."] : ["🎉 Done! I just sent 0.1 celestia to 0x05341....Your transaction was confirmed on the celestia network in 3 seconds."],
           cursor: isPlaying ? "|" : "",
           autoStart: true,
           deleteSpeed: isPlaying ? "natural" : Infinity,

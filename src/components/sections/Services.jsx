@@ -23,7 +23,7 @@ const Services = () => {
             <>
               AI Chat Bot for{" "}
               <span className="inline-block relative font-semibold">
-                Sonic Transfers
+                Celestia Transfers
                 <img
                   src={curve}
                   className="absolute top-full left-0 w-full xl:-mt-2 pointer-events-none select-none"
@@ -34,7 +34,7 @@ const Services = () => {
               </span>
             </>
           }
-          text="Transfer Sonic tokens through blockchain using natural language commands with our intelligent AI assistant."
+          text="Transfer Celestia tokens through blockchain using natural language commands with our intelligent AI assistant."
         />
 
         <div className="relative">
@@ -56,7 +56,7 @@ const Services = () => {
               <div className="absolute inset-0 flex flex-col justify-end p-8 bg-gradient-to-b from-n-8/0 to-n-8/90 lg:p-15">
                 <h4 className="h4 mb-4">AI Transfer Assistant</h4>
                 <p className="body-2 mb-[3rem] text-n-3">
-                  Simply tell our AI to transfer Sonic tokens. Natural language commands make blockchain transactions as easy as chatting!
+                  Simply tell our AI to transfer Celestia tokens. Natural language commands make blockchain transactions as easy as chatting!
                 </p>
               </div>
 
