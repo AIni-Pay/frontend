@@ -8,22 +8,26 @@ import { Button, Section } from "../ui";
 import CompanyLogos from "./CompanyLogos";
 import { BackgroundCircles, BottomLine, Gradient } from "../design/Hero";
 import { Generating, Notification } from "../common";
-import botEnter from "../../assets/IA chat/robo-cart.png"
+
+import SplineScene from "../3D/SplineScene";
 
 const Hero = () => {
   const parallaxRef = useRef(null);
 
   return (
     <Section
-      className="pt-[9rem] -mt-[5.25rem]"
+      className="pt-[5rem] -mt-[5.25rem]"
       crosses
       crossesOffset="lg:translate-y-[5.25rem]"
       customPaddings
       id="hero"
     >
+      
       <div ref={parallaxRef} className="container relative">
+        
         <div className="relative z-1 max-w-[62rem] mx-auto text-center mb-[1rem] md:mb-20 lg:mb-[6rem]">
-          <h1 className="h1 mb-6">
+          
+          <h1 className="h1 mb-3">
             Explore the Possibilities of
             <br />
             <Typewriter
@@ -59,14 +63,14 @@ const Hero = () => {
             </span>
           </p>
 
-          <div className="relative flex justify-center items-center">
-            <img src={botEnter} alt="" className="w-60 h-60 object-contain" />
-            <div className="absolute bottom-16">
+          <div className=" flex justify-center items-center">
+            <div className="bottom-16">
               <Button href="/iaChat" aiButton>
                 Start your Chat with AI!
               </Button>
             </div>
           </div>
+          <SplineScene />
         </div>
 
         <div className="relative max-w-[23rem] mx-auto md:max-w-5xl xl:mb-24">
@@ -108,16 +112,16 @@ const Hero = () => {
           </div>
 
           <div className="absolute -top-[54%] left-1/2 w-[234%] -translate-x-1/2 md:-top-[46%] md:w-[138%] lg:-top-[104%]">
-            <img
-              src={heroBackground}
+            {/* <img
+              src={starBackground}
               className="w-full pointer-events-none select-none"
               width={1440}
               height={1800}
               alt="Hero"
-            />
+            /> */}
           </div>
 
-          <BackgroundCircles />
+          
         </div>
 
         
