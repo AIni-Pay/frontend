@@ -83,6 +83,20 @@ export const CHAIN_EXPLORERS = {
     baseUrl: 'https://testnet.monadexplorer.com',
     addressUrl: 'https://testnet.monadexplorer.com/address/',
     txUrl: 'https://testnet.monadexplorer.com/tx/'
+  },
+  // Reactive Lasna Testnet
+  5318007: {
+    name: 'Reactive Lasna',
+    baseUrl: 'https://lasna.reactscan.net',
+    addressUrl: 'https://lasna.reactscan.net/address/',
+    txUrl: 'https://lasna.reactscan.net/tx/'
+  },
+  // Reactive Mainnet
+  1597: {
+    name: 'Reactive Mainnet',
+    baseUrl: 'https://reactscan.net',
+    addressUrl: 'https://reactscan.net/address/',
+    txUrl: 'https://reactscan.net/tx/'
   }
 };
 

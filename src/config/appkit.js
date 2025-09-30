@@ -103,9 +103,53 @@ const monadNetwork = {
   testnet: monadTestnet.testnet || true
 }
 
+const lasnaTestnetNetwork = {
+  id: 5318007,
+  name: 'Reactive Lasna',
+  nativeCurrency: {
+    name: 'REACT',
+    symbol: 'REACT',
+    decimals: 18
+  },
+  rpcUrls: {
+    public: { http: ['https://lasna-rpc.rnk.dev/'] },
+    default: { http: ['https://lasna-rpc.rnk.dev/'] }
+  },
+  blockExplorers: {
+    default: {
+      name: 'Lasna Explorer',
+      url: 'https://lasna.reactscan.net'
+    }
+  },
+  testnet: true
+}
+
+const reactiveMainnetNetwork = {
+  id: 1597,
+  name: 'Reactive Mainnet',
+  nativeCurrency: {
+    name: 'REACT',
+    symbol: 'REACT',
+    decimals: 18
+  },
+  rpcUrls: {
+    public: { http: ['https://mainnet-rpc.rnk.dev/'] },
+    default: { http: ['https://mainnet-rpc.rnk.dev/'] }
+  },
+  blockExplorers: {
+    default: {
+      name: 'Reactive Explorer',
+      url: 'https://reactscan.net/'
+    }
+  },
+  testnet: false
+}
+
 // Combine EVM-compatible networks only (exclude Cosmos chains)
 export const networks = [
   sonicNetwork,
+  reactiveMainnetNetwork,
+  lasnaTestnetNetwork,
   mainnet,
   sepolia,
   avalanche,

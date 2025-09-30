@@ -131,7 +131,7 @@ const Hero = () => {
                 🔗 Conectar con EVM
               </Button>
             </div>
-            <div className="bottom-16">
+            {/* <div className="bottom-16">
               <Button 
                 onClick={connectCelestia}
                 aiButton
@@ -139,7 +139,7 @@ const Hero = () => {
               >
                 🌟 Conectar Keplr CELESTIA
               </Button>
-            </div>
+            </div> */}
           </div>
           <SplineScene />
         </div>

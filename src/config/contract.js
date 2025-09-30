@@ -1,8 +1,11 @@
 // Configuración del contrato TransactionManager
 export const CONTRACT_CONFIG = {
-  address: "0x9d7b2eA62b7B9B1c382c1B92e8dd567E6e772090",
-  chainId: 146, // Sonic Mainnet
-  blockExplorer: "https://sonicscan.org",
+  // address: "0x9d7b2eA62b7B9B1c382c1B92e8dd567E6e772090",
+  // chainId: 146, // Sonic Mainnet
+  // blockExplorer: "https://sonicscan.org",
+  address: "0xf0fc1edbfb5c81835e8bc8a9b3d7915bf1fec523",
+  chainId: 5318007, // Sonic Mainnet
+  blockExplorer: "https://lasna.reactscan.net",
   abi: [
     {
       "inputs": [
